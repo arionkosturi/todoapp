@@ -10,10 +10,34 @@ const initialState = [
 
 function Todos() {
   const [todoList, setTodoList] = useState(initialState);
+  const deleteHandler = (id) => {
+    const newTodos = todoList.filter((item) => {
+      return item.id !== id;
+    });
+    setTodoList(newTodos);
+  };
+  const updateHandler = (todo) => {
+    setTodoList(
+      todoList.map((item) => {
+        if (item.id === todo.id) {
+          return {
+            ...item,
+            message: todo.message,
+          };
+        } else {
+          return item;
+        }
+      })
+    );
+  };
   return (
     <div>
       <TodoForm todos={todoList} setTodos={setTodoList} />
-      <TodosList todos={todoList} />
+      <TodosList
+        todos={todoList}
+        deleteHandler={deleteHandler}
+        updateHandler={updateHandler}
+      />
     </div>
   );
 }
